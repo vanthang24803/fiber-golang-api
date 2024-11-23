@@ -1,0 +1,15 @@
+# .air.toml
+
+root = "./"
+tmp_dir = "tmp" 
+
+[build]
+  cmd = "go run ./cmd/main.go"
+  include = ["cmd", "internal", "pkg", "api"]  
+  exclude = ["assets", "tmp", "node_modules"]  
+
+[watch]
+  dirs = ["cmd", "internal", "pkg", "api"] 
+
+[log]
+  time = true

@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/vanthang24803/fiber-api/internal/config"
 )
 
@@ -19,9 +19,9 @@ func ConnectionDB() *sql.DB {
 	db_host := os.Getenv("DB_HOST")
 	db_port := os.Getenv("DB_PORT")
 
-	connStr := fmt.Sprintf("user=%s dbname=%s password=%s host=%v port=%v sslmode=disable", db_username, db_name, db_pass, db_host, db_port)
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", db_username, db_pass, db_host, db_port, db_name)
 
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		log.Fatal("Error opening database: ", err)
 		return nil
