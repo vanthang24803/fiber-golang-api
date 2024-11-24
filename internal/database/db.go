@@ -33,6 +33,6 @@ func ConnectionDB() *sql.DB {
 		return nil
 	}
 
-	log.Println("Database connection established successfully.")
+	log.Println("Database connection established successfully ✅")
 	return db
 }

@@ -37,6 +37,4 @@ func main() {
 	if err := app.Listen(":" + PORT); err != nil {
 		log.Fatal("Error starting server:", err)
 	}
-
-	log.Printf("Application running on port %v\n ✅", PORT)
 }
