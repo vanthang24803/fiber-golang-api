@@ -38,5 +38,5 @@ func main() {
 		log.Fatal("Error starting server:", err)
 	}
 
-	log.Printf("Application running on port %v\n", PORT)
+	log.Printf("Application running on port %v\n ✅", PORT)
 }

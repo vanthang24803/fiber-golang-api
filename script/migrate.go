@@ -22,9 +22,10 @@ func main() {
 	db_host := os.Getenv("DB_HOST")
 	db_port := os.Getenv("DB_PORT")
 
-	connStr := fmt.Sprintf("user=%s dbname=%s password=%s host=%v port=%v sslmode=disable", db_username, db_name, db_pass, db_host, db_port)
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true",
+		db_username, db_pass, db_host, db_port, db_name)
 
-	cmd := exec.Command("goose", "-dir=internal/database/migrations", "postgres", connStr, "up")
+	cmd := exec.Command("goose", "-dir=internal/database/migrations", "mysql", connStr, "up")
 	cmd.Dir = "../"
 
 	cmd.Stdout = os.Stdout
@@ -35,5 +36,5 @@ func main() {
 		log.Fatalf("Error running goose command: %v", cmdErr)
 	}
 
-	fmt.Println("Migration completed successfully.")
+	fmt.Println("Migration completed successfully ✅")
 }

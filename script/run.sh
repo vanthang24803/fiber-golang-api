@@ -1,0 +1,5 @@
+
+
+cd ..
+
+go run ./cmd

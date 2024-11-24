@@ -10,12 +10,11 @@ func ErrorHandlingMiddleware() fiber.Handler {
 		err := c.Next()
 
 		if err != nil {
-
 			if err.Error() == "not found" {
-				return c.Status(fiber.StatusNotFound).JSON(utils.Exception(400, "Not Found!", c.Request().URI().String()))
+				return c.Status(fiber.StatusNotFound).JSON(utils.Exception(404, "Not Found!"))
 			}
 
-			return c.Status(fiber.StatusInternalServerError).JSON(utils.Exception(500, "Internal Server Error", c.Request().URI().String()))
+			return c.Status(fiber.StatusInternalServerError).JSON(utils.Exception(500, "Internal Server Error"))
 		}
 
 		return nil

@@ -2,36 +2,40 @@ package auth
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
+	"github.com/vanthang24803/fiber-api/api/modules/auth/common"
 	"github.com/vanthang24803/fiber-api/internal/database"
 )
 
-func FindOne(c *fiber.Ctx) error {
+func Register(c *fiber.Ctx) error {
+
 	db := database.ConnectionDB()
 	defer db.Close()
 
-	userIDParam := c.Params("userID")
-	userID, err := uuid.Parse(userIDParam)
-	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Invalid user ID"})
+	var req common.RegisterRequest
+
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
 	}
 
-	user, err := findOne(db, userID)
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
-	}
+	result := register(db, &req)
+	return c.Status(201).JSON(result)
 
-	return c.JSON(user)
 }
 
-func FindAll(c *fiber.Ctx) error {
+func Login(c *fiber.Ctx) error {
 	db := database.ConnectionDB()
 	defer db.Close()
 
-	users, err := findAll(db)
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	var req common.LoginRequest
+
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
 	}
 
-	return c.JSON(users)
+	result := login(db, &req)
+	return c.Status(201).JSON(result)
 }
